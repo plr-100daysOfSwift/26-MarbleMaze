@@ -59,8 +59,26 @@ class GameScene: SKScene {
 					addChild(node)
 				} else if letter == "s" {
 					// load star
+					let node = SKSpriteNode(imageNamed: "star")
+					node.position = position
+					node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+					node.physicsBody?.isDynamic = false
+
+					node.physicsBody?.categoryBitMask = CollisionTypes.star.rawValue
+					node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+					node.physicsBody?.collisionBitMask = 0
+					addChild(node)
 				} else if letter == "f" {
 					// load finish
+					let node = SKSpriteNode(imageNamed: "finish")
+					node.position = position
+					node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+					node.physicsBody?.isDynamic = false
+
+					node.physicsBody?.categoryBitMask = CollisionTypes.finish.rawValue
+					node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+					node.physicsBody?.collisionBitMask = 0
+					addChild(node)
 				} else if letter == " " {
 					// this is an empty space - do nothing
 				} else {
