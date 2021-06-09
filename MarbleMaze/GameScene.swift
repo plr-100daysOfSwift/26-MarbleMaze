@@ -28,13 +28,13 @@ class GameScene: SKScene {
 			for (column, letter) in line.enumerated() {
 				if letter == "x" {
 					// load wall
-				} else if letter = "v" {
+				} else if letter == "v" {
 					// load vortex
-				} else if letter = "s" {
+				} else if letter == "s" {
 					// load star
-				} else if letter = "f" {
+				} else if letter == "f" {
 					// load finish
-				} else if letter = " " {
+				} else if letter == " " {
 					// this is an empty space - do nothing
 				} else {
 					fatalError("Unknown letter: \(letter)")
