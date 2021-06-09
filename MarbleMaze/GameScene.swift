@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-enum CategoryTypes: UInt32 {
+enum CollisionTypes: UInt32 {
 	case player = 1
 	case wall = 2
 	case star = 4
