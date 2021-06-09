@@ -15,8 +15,12 @@ class GameScene: SKScene {
 	}
 
 	loadLevel() {
-		guard let levelURL = Bundle.main.url(forResource: "level1", withExtension: "txt") else { return }
-		guard let levelString = try? String(contentsOf: levelURL) else { return }
+		guard let levelURL = Bundle.main.url(forResource: "level1", withExtension: "txt") else {
+			fatalError("Could not find level1.txt in the app bundle.")
+		}
+		guard let levelString = try? String(contentsOf: levelURL) else {
+			fatalError("Could not load level1.txt from the app bundle")
+		}
 
 		let lines = levelString.components(separatedBy: "\n")
 
@@ -32,7 +36,10 @@ class GameScene: SKScene {
 					// load finish
 				} else if letter = " " {
 					// this is an empty space - do nothing
+				} else {
+					fatalError("Unknown letter: \(letter)")
 				}
+
 			}
 		}
 
