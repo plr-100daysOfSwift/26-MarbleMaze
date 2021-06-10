@@ -26,10 +26,12 @@ class GameScene: SKScene {
 		background.blendMode = .replace
 		background.zPosition = -1
 		addChild(background)
+
+		physicsWorld.gravity = .zero
 		
 		loadLevel()
 		createPlayer()
-		
+
 	}
 
 	func loadLevel() {
