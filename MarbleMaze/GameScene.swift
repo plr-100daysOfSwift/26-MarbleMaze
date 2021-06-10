@@ -6,7 +6,7 @@
 //
 
 import SpriteKit
-import GameplayKit
+import CoreMotion
 
 enum CollisionTypes: UInt32 {
 	case player = 1
@@ -20,6 +20,7 @@ class GameScene: SKScene {
 
 	var player: SKSpriteNode!
 	var lastTouchPosition: CGPoint?
+	var motionManager: CMMotionManager!
 
 	override func didMove(to view: SKView) {
 		let background = SKSpriteNode(imageNamed: "background")
@@ -32,6 +33,8 @@ class GameScene: SKScene {
 
 		loadLevel()
 		createPlayer()
+		motionManager = CMMotionManager()
+		motionManager.startAccelerometerUpdates()
 
 	}
 
