@@ -143,7 +143,9 @@ class GameScene: SKScene {
 			physicsWorld.gravity = CGVector(dx: diff.x / 100, dy: diff.y / 100)
 		}
 		#else
-
+		if let acceleromterData = motionManager.accelerometerData {
+			physicsWorld.gravity = CGVector(dx: acceleromterData.acceleration.y * -50, dy: acceleromterData.acceleration.x * 50)
+		}
 		#endif
 	}
 }
