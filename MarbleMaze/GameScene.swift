@@ -137,9 +137,13 @@ class GameScene: SKScene {
 	}
 
 	override func update(_ currentTime: TimeInterval) {
+		#if targetEnvironment(simulator)
 		if let currentTouch = lastTouchPosition {
 			let diff = CGPoint(x: currentTouch.x - player.position.x, y: currentTouch.y - player.position.y)
 			physicsWorld.gravity = CGVector(dx: diff.x / 100, dy: diff.y / 100)
 		}
+		#else
+
+		#endif
 	}
 }
