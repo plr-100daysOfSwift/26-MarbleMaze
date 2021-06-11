@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			scoreLabel.text = "Score: \(score)"
 		}
 	}
+	var isGameOver = false
 
 	// MARK:-  Life Cycle
 
@@ -57,6 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	override func update(_ currentTime: TimeInterval) {
+		guard isGameOver == false else { return }
 		#if targetEnvironment(simulator)
 		if let currentTouch = lastTouchPosition {
 			let diff = CGPoint(x: currentTouch.x - player.position.x, y: currentTouch.y - player.position.y)
