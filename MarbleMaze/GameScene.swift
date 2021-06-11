@@ -136,10 +136,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		}
 
 		let lines = levelString.components(separatedBy: "\n")
+		let cellSize = (width: 64, height: 64)
 
 		for (row, line) in lines.reversed().enumerated() {
 			for (column, letter) in line.enumerated() {
-				let position = CGPoint(x: (64 * column) + 32, y: (64 * row) + 32)
+				let position = CGPoint(x: (cellSize.width * column) + (cellSize.width / 2), y: (cellSize.height * row) + (cellSize.height / 2))
 				switch letter {
 				case "x":
 					loadWall(position)
