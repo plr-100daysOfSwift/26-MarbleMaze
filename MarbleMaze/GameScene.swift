@@ -18,9 +18,13 @@ enum CollisionTypes: UInt32 {
 
 class GameScene: SKScene {
 
+	// MARK:-  Properties
+
 	var player: SKSpriteNode!
 	var lastTouchPosition: CGPoint?
 	var motionManager: CMMotionManager!
+
+	// MARK:-  Life Cycle
 
 	override func didMove(to view: SKView) {
 		let background = SKSpriteNode(imageNamed: "background")
@@ -38,7 +42,22 @@ class GameScene: SKScene {
 
 	}
 
-	func loadLevel() {
+	override func update(_ currentTime: TimeInterval) {
+		#if targetEnvironment(simulator)
+		if let currentTouch = lastTouchPosition {
+			let diff = CGPoint(x: currentTouch.x - player.position.x, y: currentTouch.y - player.position.y)
+			physicsWorld.gravity = CGVector(dx: diff.x / 100, dy: diff.y / 100)
+		}
+		#else
+		if let acceleromterData = motionManager.accelerometerData {
+			physicsWorld.gravity = CGVector(dx: acceleromterData.acceleration.y * -50, dy: acceleromterData.acceleration.x * 50)
+		}
+		#endif
+	}
+
+	// MARK:- Private Methods
+
+	fileprivate func loadLevel() {
 		guard let levelURL = Bundle.main.url(forResource: "level1", withExtension: "txt") else {
 			fatalError("Could not find level1.txt in the app bundle.")
 		}
@@ -106,7 +125,7 @@ class GameScene: SKScene {
 
 	}
 
-	func createPlayer() {
+	fileprivate func createPlayer() {
 		player = SKSpriteNode(imageNamed: "player")
 		player.position = CGPoint(x: 96, y: 672)
 		player.zPosition = 1
@@ -119,6 +138,8 @@ class GameScene: SKScene {
 		player.physicsBody?.collisionBitMask = CollisionTypes.wall.rawValue
 		addChild(player)
 	}
+
+	// MARK:-  Touches
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		guard let touch = touches.first else { return	}
@@ -136,16 +157,4 @@ class GameScene: SKScene {
 		lastTouchPosition = nil
 	}
 
-	override func update(_ currentTime: TimeInterval) {
-		#if targetEnvironment(simulator)
-		if let currentTouch = lastTouchPosition {
-			let diff = CGPoint(x: currentTouch.x - player.position.x, y: currentTouch.y - player.position.y)
-			physicsWorld.gravity = CGVector(dx: diff.x / 100, dy: diff.y / 100)
-		}
-		#else
-		if let acceleromterData = motionManager.accelerometerData {
-			physicsWorld.gravity = CGVector(dx: acceleromterData.acceleration.y * -50, dy: acceleromterData.acceleration.x * 50)
-		}
-		#endif
-	}
 }
