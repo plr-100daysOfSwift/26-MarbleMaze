@@ -140,17 +140,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		for (row, line) in lines.reversed().enumerated() {
 			for (column, letter) in line.enumerated() {
 				let position = CGPoint(x: (64 * column) + 32, y: (64 * row) + 32)
-				if letter == "x" {
+				switch letter {
+				case "x":
 					loadWall(position)
-				} else if letter == "v" {
+				case "v":
 					loadVortex(position)
-				} else if letter == "s" {
+				case "s":
 					loadStar(position)
-				} else if letter == "f" {
+				case "f":
 					loadFinish(position)
-				} else if letter == " " {
-					// this is an empty space - do nothing
-				} else {
+				case " ":
+					break
+				default:
 					fatalError("Unknown letter: \(letter)")
 				}
 
