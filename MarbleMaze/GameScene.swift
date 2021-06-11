@@ -15,7 +15,7 @@ enum NodeType: String {
 	case finish
 }
 
-enum CollisionTypes: UInt32 {
+enum CategoryType: UInt32 {
 	case player = 1
 	case wall = 2
 	case star = 4
@@ -86,7 +86,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		node.position = position
 
 		node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
-		node.physicsBody?.categoryBitMask = CollisionTypes.wall.rawValue
+		node.physicsBody?.categoryBitMask = CategoryType.wall.rawValue
 		node.physicsBody?.isDynamic = false
 		addChild(node)
 	}
@@ -100,8 +100,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
 		node.physicsBody?.isDynamic = false
 
-		node.physicsBody?.categoryBitMask = CollisionTypes.vortex.rawValue
-		node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+		node.physicsBody?.categoryBitMask = CategoryType.vortex.rawValue
+		node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
 		node.physicsBody?.collisionBitMask = 0
 		addChild(node)
 	}
@@ -114,8 +114,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
 		node.physicsBody?.isDynamic = false
 
-		node.physicsBody?.categoryBitMask = CollisionTypes.star.rawValue
-		node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+		node.physicsBody?.categoryBitMask = CategoryType.star.rawValue
+		node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
 		node.physicsBody?.collisionBitMask = 0
 		addChild(node)
 	}
@@ -128,8 +128,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
 		node.physicsBody?.isDynamic = false
 
-		node.physicsBody?.categoryBitMask = CollisionTypes.finish.rawValue
-		node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+		node.physicsBody?.categoryBitMask = CategoryType.finish.rawValue
+		node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
 		node.physicsBody?.collisionBitMask = 0
 		addChild(node)
 	}
@@ -175,10 +175,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width / 2)
 		player.physicsBody?.allowsRotation = false
 		player.physicsBody?.linearDamping = 0.5
-		player.physicsBody?.categoryBitMask = CollisionTypes.player.rawValue
-		player.physicsBody?.contactTestBitMask = CollisionTypes.star.rawValue | CollisionTypes.vortex.rawValue |
-			CollisionTypes.finish.rawValue
-		player.physicsBody?.collisionBitMask = CollisionTypes.wall.rawValue
+		player.physicsBody?.categoryBitMask = CategoryType.player.rawValue
+		player.physicsBody?.contactTestBitMask = CategoryType.star.rawValue | CategoryType.vortex.rawValue |
+			CategoryType.finish.rawValue
+		player.physicsBody?.collisionBitMask = CategoryType.wall.rawValue
 		addChild(player)
 	}
 
