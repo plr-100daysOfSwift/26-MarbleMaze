@@ -16,7 +16,7 @@ enum CollisionTypes: UInt32 {
 	case finish = 16
 }
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	// MARK:-  Properties
 
@@ -46,6 +46,7 @@ class GameScene: SKScene {
 		scoreLabel.zPosition = 2
 		addChild(scoreLabel)
 
+		physicsWorld.contactDelegate = self
 		physicsWorld.gravity = .zero
 
 		loadLevel()
