@@ -183,7 +183,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	fileprivate func playerCollided(with node: SKNode) {
-		if node.name == NodeType.vortex.rawValue {
+		let name = node.name
+		switch name {
+		case NodeType.vortex.rawValue:
 			player.physicsBody?.isDynamic = false
 			isGameOver = true
 			score -= 1
@@ -195,11 +197,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				self?.createPlayer()
 				self?.isGameOver = false
 			}
-		} else if node.name == NodeType.star.rawValue {
+		case NodeType.star.rawValue:
 			node.removeFromParent()
 			score += 1
-		} else if node.name == NodeType.finish.rawValue {
-			// go to next level
+		case NodeType.finish.rawValue:
+			break
+		default:
+			break
 		}
 	}
 
