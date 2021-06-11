@@ -111,6 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				} else if letter == "s" {
 					// load star
 					let node = SKSpriteNode(imageNamed: "star")
+					node.name = "star"
 					node.position = position
 					node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
 					node.physicsBody?.isDynamic = false
@@ -122,6 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				} else if letter == "f" {
 					// load finish
 					let node = SKSpriteNode(imageNamed: "finish")
+					node.name = "finish"
 					node.position = position
 					node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
 					node.physicsBody?.isDynamic = false
