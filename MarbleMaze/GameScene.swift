@@ -155,8 +155,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		addChild(player)
 	}
 
-	fileprivate func playerCollided(with: SKNode) {
+	fileprivate func playerCollided(with node: SKNode) {
+		if node.name == "vortex" {
+			player.physicsBody?.isDynamic = false
+			isGameOver = true
+			score -= 1
+			let move = SKAction.move(to: node.position, duration: 0.25)
+			let scale = SKAction.scale(to: 0.0001, duration: 0.25)
+			let remove = SKAction.removeFromParent()
+			let sequence = SKAction.sequence([move, scale, remove])
+			player.run(sequence) { [weak self] in
+				self?.createPlayer()
+				self?.isGameOver = false
+			}
+		} else if node.name == "star" {
 
+		} else if node.name == "finish" {
+
+		}
 	}
 
 	// MARK:-  Touches
