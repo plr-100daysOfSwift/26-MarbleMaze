@@ -8,6 +8,13 @@
 import SpriteKit
 import CoreMotion
 
+enum NodeType: String {
+	case block
+	case star
+	case vortex
+	case finish
+}
+
 enum CollisionTypes: UInt32 {
 	case player = 1
 	case wall = 2
@@ -74,8 +81,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	// MARK:- Private Methods
 
 	fileprivate func loadWall(_ position: CGPoint) {
-		// load wall
-		let node = SKSpriteNode(imageNamed: "block")
+		let block = NodeType.block.rawValue
+		let node = SKSpriteNode(imageNamed: block)
 		node.position = position
 
 		node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
@@ -85,9 +92,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	fileprivate func loadVortex(_ position: CGPoint) {
-		// load vortex
-		let node = SKSpriteNode(imageNamed: "vortex")
-		node.name = "vortex"
+		let vortex = NodeType.vortex.rawValue
+		let node = SKSpriteNode(imageNamed: vortex)
+		node.name = vortex
 		node.position = position
 		node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
 		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
@@ -100,9 +107,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	fileprivate func loadStar(_ position: CGPoint) {
-		// load star
-		let node = SKSpriteNode(imageNamed: "star")
-		node.name = "star"
+		let star = NodeType.star.rawValue
+		let node = SKSpriteNode(imageNamed: star)
+		node.name = star
 		node.position = position
 		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
 		node.physicsBody?.isDynamic = false
@@ -114,9 +121,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	fileprivate func loadFinish(_ position: CGPoint) {
-		// load finish
-		let node = SKSpriteNode(imageNamed: "finish")
-		node.name = "finish"
+		let finish = NodeType.finish.rawValue
+		let node = SKSpriteNode(imageNamed: finish)
+		node.name = finish
 		node.position = position
 		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
 		node.physicsBody?.isDynamic = false
@@ -176,7 +183,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	fileprivate func playerCollided(with node: SKNode) {
-		if node.name == "vortex" {
+		if node.name == NodeType.vortex.rawValue {
 			player.physicsBody?.isDynamic = false
 			isGameOver = true
 			score -= 1
@@ -188,10 +195,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				self?.createPlayer()
 				self?.isGameOver = false
 			}
-		} else if node.name == "star" {
+		} else if node.name == NodeType.star.rawValue {
 			node.removeFromParent()
 			score += 1
-		} else if node.name == "finish" {
+		} else if node.name == NodeType.finish.rawValue {
 			// go to next level
 		}
 	}
