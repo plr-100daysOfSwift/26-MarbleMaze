@@ -153,6 +153,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		addChild(player)
 	}
 
+	fileprivate func playerCollided(with: SKNode) {
+
+	}
+
 	// MARK:-  Touches
 
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -171,4 +175,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		lastTouchPosition = nil
 	}
 
+	// MARK:- PhysicsWorldContactDelegate Methods
+
+	func didBegin(_ contact: SKPhysicsContact) {
+		guard let nodeA = contact.bodyA.node else { return }
+		guard let nodeB = contact.bodyB.node else { return }
+
+		if nodeA == player {
+			playerCollided(with: nodeB)
+		} else if nodeB == player {
+			playerCollided(with: nodeA)
+		}
+	}
 }
