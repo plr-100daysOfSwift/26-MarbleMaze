@@ -169,9 +169,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				self?.isGameOver = false
 			}
 		} else if node.name == "star" {
-
+			node.removeFromParent()
+			score += 1
 		} else if node.name == "finish" {
-
+			// go to next level
 		}
 	}
 
