@@ -17,6 +17,8 @@ enum CategoryType: UInt32 {
 
 	var name: String {
 		switch self {
+		case .player:
+			return "player"
 		case .block:
 			return "block"
 		case .vortex:
@@ -103,16 +105,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
 		}
 
+		node.physicsBody?.categoryBitMask = type.rawValue
+
 		switch type {
-		case .block:
-			node.physicsBody?.categoryBitMask = CategoryType.block.rawValue
 		case .vortex:
-			node.physicsBody?.categoryBitMask = CategoryType.vortex.rawValue
 			node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
-		case .star:
-			node.physicsBody?.categoryBitMask = CategoryType.star.rawValue
-		case .finish:
-			node.physicsBody?.categoryBitMask = CategoryType.finish.rawValue
 		default:
 			break
 		}
