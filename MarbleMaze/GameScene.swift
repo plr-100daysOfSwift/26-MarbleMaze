@@ -8,19 +8,27 @@
 import SpriteKit
 import CoreMotion
 
-enum NodeType: String {
-	case block
-	case star
-	case vortex
-	case finish
-}
-
 enum CategoryType: UInt32 {
 	case player = 1
-	case wall = 2
-	case star = 4
-	case vortex = 8
+	case block = 2
+	case vortex = 4
+	case star = 8
 	case finish = 16
+
+	var name: String {
+		switch self {
+		case .block:
+			return "block"
+		case .vortex:
+			return "vortex"
+		case .star:
+			return "star"
+		case .finish:
+			return "finish"
+		default:
+			return ""
+		}
+	}
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -80,57 +88,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	// MARK:- Private Methods
 
-	fileprivate func loadWall(_ position: CGPoint) {
-		let block = NodeType.block.rawValue
-		let node = SKSpriteNode(imageNamed: block)
+	fileprivate func loadNode(_ type: CategoryType, at position: CGPoint) {
+		let name = type.name
+		let node = SKSpriteNode(imageNamed: name)
 		node.position = position
+		node.name = name
 
-		node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
-		node.physicsBody?.categoryBitMask = CategoryType.wall.rawValue
+		switch type {
+		case .block:
+			node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
+		default:
+			node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+			node.physicsBody?.collisionBitMask = 0
+			node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
+		}
+
+		switch type {
+		case .block:
+			node.physicsBody?.categoryBitMask = CategoryType.block.rawValue
+		case .vortex:
+			node.physicsBody?.categoryBitMask = CategoryType.vortex.rawValue
+			node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
+		case .star:
+			node.physicsBody?.categoryBitMask = CategoryType.star.rawValue
+		case .finish:
+			node.physicsBody?.categoryBitMask = CategoryType.finish.rawValue
+		default:
+			break
+		}
+
 		node.physicsBody?.isDynamic = false
-		addChild(node)
-	}
-
-	fileprivate func loadVortex(_ position: CGPoint) {
-		let vortex = NodeType.vortex.rawValue
-		let node = SKSpriteNode(imageNamed: vortex)
-		node.name = vortex
-		node.position = position
-		node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
-		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
-		node.physicsBody?.isDynamic = false
-
-		node.physicsBody?.categoryBitMask = CategoryType.vortex.rawValue
-		node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
-		node.physicsBody?.collisionBitMask = 0
-		addChild(node)
-	}
-
-	fileprivate func loadStar(_ position: CGPoint) {
-		let star = NodeType.star.rawValue
-		let node = SKSpriteNode(imageNamed: star)
-		node.name = star
-		node.position = position
-		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
-		node.physicsBody?.isDynamic = false
-
-		node.physicsBody?.categoryBitMask = CategoryType.star.rawValue
-		node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
-		node.physicsBody?.collisionBitMask = 0
-		addChild(node)
-	}
-
-	fileprivate func loadFinish(_ position: CGPoint) {
-		let finish = NodeType.finish.rawValue
-		let node = SKSpriteNode(imageNamed: finish)
-		node.name = finish
-		node.position = position
-		node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
-		node.physicsBody?.isDynamic = false
-
-		node.physicsBody?.categoryBitMask = CategoryType.finish.rawValue
-		node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
-		node.physicsBody?.collisionBitMask = 0
 		addChild(node)
 	}
 
@@ -150,13 +137,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				let position = CGPoint(x: (cellSize.width * column) + (cellSize.width / 2), y: (cellSize.height * row) + (cellSize.height / 2))
 				switch letter {
 				case "x":
-					loadWall(position)
+					loadNode(CategoryType.block, at: position)
 				case "v":
-					loadVortex(position)
+					loadNode(CategoryType.vortex, at: position)
 				case "s":
-					loadStar(position)
+					loadNode(CategoryType.star, at: position)
 				case "f":
-					loadFinish(position)
+					loadNode(CategoryType.finish, at: position)
 				case " ":
 					break
 				default:
@@ -178,14 +165,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		player.physicsBody?.categoryBitMask = CategoryType.player.rawValue
 		player.physicsBody?.contactTestBitMask = CategoryType.star.rawValue | CategoryType.vortex.rawValue |
 			CategoryType.finish.rawValue
-		player.physicsBody?.collisionBitMask = CategoryType.wall.rawValue
+		player.physicsBody?.collisionBitMask = CategoryType.block.rawValue
 		addChild(player)
 	}
 
 	fileprivate func playerCollided(with node: SKNode) {
 		let name = node.name
 		switch name {
-		case NodeType.vortex.rawValue:
+		case CategoryType.vortex.name:
 			player.physicsBody?.isDynamic = false
 			isGameOver = true
 			score -= 1
@@ -197,10 +184,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				self?.createPlayer()
 				self?.isGameOver = false
 			}
-		case NodeType.star.rawValue:
+		case CategoryType.star.name:
 			node.removeFromParent()
 			score += 1
-		case NodeType.finish.rawValue:
+		case CategoryType.finish.name:
 			break
 		default:
 			break
