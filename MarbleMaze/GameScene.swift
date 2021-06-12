@@ -160,6 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			player.run(sequence) { [weak self] in
 				self?.createPlayer()
 				self?.isGameOver = false
+				self?.teleportsOpen = true
 			}
 		case NodeType.star.name:
 			node.removeFromParent()
