@@ -14,6 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	var level = 0
 	var player: SKSpriteNode!
+	var maze = SKNode()
 	var lastTouchPosition: CGPoint?
 	var motionManager: CMMotionManager!
 	var scoreLabel: SKLabelNode!
@@ -44,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		physicsWorld.gravity = .zero
 
 		loadLevel()
+		addChild(maze)
 		createPlayer()
 		motionManager = CMMotionManager()
 		motionManager.startAccelerometerUpdates()
@@ -92,11 +94,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		}
 
 		node.physicsBody?.isDynamic = false
-		addChild(node)
+		maze.addChild(node)
 	}
 
 	fileprivate func loadLevel() {
-		guard let levelURL = Bundle.main.url(forResource: "level1", withExtension: "txt") else {
 		guard let levelURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else {
 			fatalError("Could not find level1.txt in the app bundle.")
 		}
