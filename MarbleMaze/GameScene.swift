@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	var level = 0
 	var player: SKSpriteNode!
-	var maze = SKNode()
+	var maze: SKNode!
 	var lastTouchPosition: CGPoint?
 	var motionManager: CMMotionManager!
 	var scoreLabel: SKLabelNode!
@@ -44,8 +44,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		physicsWorld.contactDelegate = self
 		physicsWorld.gravity = .zero
 
-		loadLevel()
+		maze = SKNode()
 		addChild(maze)
+
+		loadLevel()
 		createPlayer()
 		motionManager = CMMotionManager()
 		motionManager.startAccelerometerUpdates()
