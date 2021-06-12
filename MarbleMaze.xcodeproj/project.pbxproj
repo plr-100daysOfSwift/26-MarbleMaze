@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA29E28126744B2E00102395 /* NodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA29E28026744B2E00102395 /* NodeType.swift */; };
 		DAD1432126716FBE00BDE1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1432026716FBE00BDE1A5 /* AppDelegate.swift */; };
 		DAD1432326716FBE00BDE1A5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DAD1432226716FBE00BDE1A5 /* GameScene.sks */; };
 		DAD1432726716FBE00BDE1A5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1432626716FBE00BDE1A5 /* GameScene.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA29E28026744B2E00102395 /* NodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeType.swift; sourceTree = "<group>"; };
 		DAD1431D26716FBE00BDE1A5 /* MarbleMaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarbleMaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD1432026716FBE00BDE1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAD1432226716FBE00BDE1A5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				DAD1432D26716FC100BDE1A5 /* Assets.xcassets */,
 				DAD1432F26716FC100BDE1A5 /* Info.plist */,
 				DAD143372671701E00BDE1A5 /* level1.txt */,
+				DA29E28026744B2E00102395 /* NodeType.swift */,
 			);
 			path = MarbleMaze;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAD1432726716FBE00BDE1A5 /* GameScene.swift in Sources */,
+				DA29E28126744B2E00102395 /* NodeType.swift in Sources */,
 				DAD1432926716FBE00BDE1A5 /* GameViewController.swift in Sources */,
 				DAD1432126716FBE00BDE1A5 /* AppDelegate.swift in Sources */,
 			);
