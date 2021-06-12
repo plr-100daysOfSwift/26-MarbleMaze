@@ -68,6 +68,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	// MARK:- Private Methods
 
+	fileprivate func loadLevel() {
+		guard let levelURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else {
+			fatalError("Could not find level1.txt in the app bundle.")
+		}
+		guard let levelString = try? String(contentsOf: levelURL) else {
+			fatalError("Could not load level1.txt from the app bundle")
+		}
+
+		let lines = levelString.components(separatedBy: "\n")
+		let cellSize = (width: 64, height: 64)
+
+		for (row, line) in lines.reversed().enumerated() {
+			for (column, letter) in line.enumerated() {
+				let position = CGPoint(x: (cellSize.width * column) + (cellSize.width / 2), y: (cellSize.height * row) + (cellSize.height / 2))
+				guard let nodeType = NodeType(rawValue: letter) else {
+					fatalError("Unknown letter: \(letter)")
+				}
+				loadNode(nodeType, at: position)
+			}
+		}
+	}
+
 	fileprivate func loadNode(_ type: NodeType, at position: CGPoint) {
 		guard type != NodeType.space else { return }
 		let name = type.name
@@ -95,28 +117,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 		node.physicsBody?.isDynamic = false
 		maze.addChild(node)
-	}
-
-	fileprivate func loadLevel() {
-		guard let levelURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else {
-			fatalError("Could not find level1.txt in the app bundle.")
-		}
-		guard let levelString = try? String(contentsOf: levelURL) else {
-			fatalError("Could not load level1.txt from the app bundle")
-		}
-
-		let lines = levelString.components(separatedBy: "\n")
-		let cellSize = (width: 64, height: 64)
-
-		for (row, line) in lines.reversed().enumerated() {
-			for (column, letter) in line.enumerated() {
-				let position = CGPoint(x: (cellSize.width * column) + (cellSize.width / 2), y: (cellSize.height * row) + (cellSize.height / 2))
-				guard let nodeType = NodeType(rawValue: letter) else {
-					fatalError("Unknown letter: \(letter)")
-				}
-				loadNode(nodeType, at: position)
-			}
-		}
 	}
 
 	fileprivate func createPlayer() {
