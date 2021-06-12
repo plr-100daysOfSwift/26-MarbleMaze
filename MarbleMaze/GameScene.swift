@@ -15,6 +15,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	var level = 0
 	var player: SKSpriteNode!
 	var maze: SKNode!
+	var teleports: [SKSpriteNode]!
+	var teleportsOpen = true
 	var lastTouchPosition: CGPoint?
 	var motionManager: CMMotionManager!
 	var scoreLabel: SKLabelNode!
@@ -44,6 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		physicsWorld.contactDelegate = self
 		physicsWorld.gravity = .zero
 
+		teleports = []
 		maze = SKNode()
 		addChild(maze)
 
@@ -113,6 +116,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		switch type {
 		case .vortex:
 			node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
+		case .teleport:
+			teleports.append(node)
 		default:
 			break
 		}
@@ -159,6 +164,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		case NodeType.star.name:
 			node.removeFromParent()
 			score += 1
+		case NodeType.teleport.name:
+			guard teleportsOpen else {
+				return
+			}
+			teleportsOpen.toggle()
+			let destination: CGPoint!
+			if node == teleports[0] {
+				destination = teleports[1].position
+			} else {
+				destination = teleports[0].position
+			}
+			let move = SKAction.move(to: node.position, duration: 0.25)
+			let fadeOut = SKAction.fadeOut(withDuration: 0.25)
+			let wait = SKAction.wait(forDuration: 0.25)
+			let shift = SKAction.move(to: destination, duration: 0.0)
+			let fadeIn = SKAction.fadeIn(withDuration: 0.25)
+			let sequence = SKAction.sequence([move, fadeOut, shift, wait, fadeIn])
+			player.run(sequence, completion: { [weak self] in
+				self?.teleportsOpen.toggle()
+			})
 		case NodeType.finish.name:
 			let move = SKAction.move(to: node.position, duration: 0.25)
 			let scale = SKAction.scale(to: 0.0001, duration: 0.25)
@@ -176,6 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		isGameOver = true
 		level += 1
 		maze.removeAllChildren()
+		teleports.removeAll()
 		loadLevel()
 
 		run(SKAction.wait(forDuration: 1.0)) { [weak self] in
