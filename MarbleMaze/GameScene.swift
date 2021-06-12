@@ -117,7 +117,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				loadNode(nodeType, at: position)
 			}
 		}
-
 	}
 
 	fileprivate func createPlayer() {
@@ -153,10 +152,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			node.removeFromParent()
 			score += 1
 		case NodeType.finish.name:
-			break
+			moveToNextLevel()
 		default:
 			break
 		}
+	}
+
+	fileprivate func moveToNextLevel() {
+		isGameOver = true
+		maze.removeAllChildren()
+		player.removeFromParent()
+		level += 1
+		loadLevel()
+		createPlayer()
+		isGameOver = false
 	}
 
 	// MARK:-  Touches
