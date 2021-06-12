@@ -158,7 +158,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			node.removeFromParent()
 			score += 1
 		case NodeType.finish.name:
-			moveToNextLevel()
+			let move = SKAction.move(to: node.position, duration: 0.25)
+			let scale = SKAction.scale(to: 0.0001, duration: 0.25)
+			let remove = SKAction.removeFromParent()
+			let sequence = SKAction.sequence([move, scale, remove])
+			player.run(sequence) { [weak self] in
+				self?.moveToNextLevel()
+			}
 		default:
 			break
 		}
@@ -166,12 +172,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	fileprivate func moveToNextLevel() {
 		isGameOver = true
-		maze.removeAllChildren()
-		player.removeFromParent()
 		level += 1
+		maze.removeAllChildren()
 		loadLevel()
-		createPlayer()
-		isGameOver = false
+
+		run(SKAction.wait(forDuration: 1.0)) { [weak self] in
+			self?.createPlayer()
+			self?.isGameOver = false
+		}
 	}
 
 	// MARK:-  Touches
