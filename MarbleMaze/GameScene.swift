@@ -135,8 +135,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		player.alpha = 0
 		player.scale(to: CGSize(width: 0, height: 0))
 		addChild(player)
-		player.run(SKAction.scale(to: 1.0, duration: 0.25))
-		player.run(SKAction.fadeAlpha(to: 1, duration: 0.25))
+		let scale = SKAction.scale(to: 1.0, duration: 0.25)
+		let fadeIn = SKAction.fadeIn(withDuration: 0.25)
+		let group = SKAction.group([scale, fadeIn])
+		player.run(group)
 	}
 
 	fileprivate func playerCollided(with node: SKNode) {
