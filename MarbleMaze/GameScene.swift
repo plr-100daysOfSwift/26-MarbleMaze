@@ -8,12 +8,13 @@
 import SpriteKit
 import CoreMotion
 
-enum CategoryType: UInt32 {
-	case player = 1
-	case block = 2
-	case vortex = 4
-	case star = 8
-	case finish = 16
+enum NodeType: Character {
+	case player = "p"
+	case block = "x"
+	case vortex = "v"
+	case star = "s"
+	case finish = "f"
+	case space = " "
 
 	var name: String {
 		switch self {
@@ -29,6 +30,45 @@ enum CategoryType: UInt32 {
 			return "finish"
 		default:
 			return ""
+		}
+	}
+
+	var categoryBitMask: UInt32 {
+		switch self {
+		case .player:
+			return  1
+		case .block:
+			return  2
+		case .vortex:
+			return  4
+		case .star:
+			return  8
+		case .finish:
+			return  16
+		default:
+			return 0
+		}
+	}
+
+	var collisionBitMask: UInt32 {
+		switch self {
+		case .vortex, .star, .finish:
+			return 0
+		case.player:
+			return NodeType.block.categoryBitMask
+		default:
+			return 1
+		}
+	}
+
+	var contactBitMask: UInt32 {
+		switch self {
+		case .vortex, .star, .finish:
+			return NodeType.player.categoryBitMask
+		case .player:
+			return NodeType.star.categoryBitMask | NodeType.vortex.categoryBitMask | NodeType.finish.categoryBitMask
+		default:
+			return 1
 		}
 	}
 }
@@ -90,7 +130,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	// MARK:- Private Methods
 
-	fileprivate func loadNode(_ type: CategoryType, at position: CGPoint) {
+	fileprivate func loadNode(_ type: NodeType, at position: CGPoint) {
+		guard type != NodeType.space else { return }
 		let name = type.name
 		let node = SKSpriteNode(imageNamed: name)
 		node.position = position
@@ -101,11 +142,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
 		default:
 			node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
-			node.physicsBody?.collisionBitMask = 0
-			node.physicsBody?.contactTestBitMask = CategoryType.player.rawValue
 		}
 
-		node.physicsBody?.categoryBitMask = type.rawValue
+		node.physicsBody?.contactTestBitMask = type.contactBitMask
+		node.physicsBody?.collisionBitMask = type.collisionBitMask
+		node.physicsBody?.categoryBitMask = type.categoryBitMask
 
 		switch type {
 		case .vortex:
@@ -132,44 +173,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		for (row, line) in lines.reversed().enumerated() {
 			for (column, letter) in line.enumerated() {
 				let position = CGPoint(x: (cellSize.width * column) + (cellSize.width / 2), y: (cellSize.height * row) + (cellSize.height / 2))
-				switch letter {
-				case "x":
-					loadNode(CategoryType.block, at: position)
-				case "v":
-					loadNode(CategoryType.vortex, at: position)
-				case "s":
-					loadNode(CategoryType.star, at: position)
-				case "f":
-					loadNode(CategoryType.finish, at: position)
-				case " ":
-					break
-				default:
+				guard let nodeType = NodeType(rawValue: letter) else {
 					fatalError("Unknown letter: \(letter)")
 				}
-
+				loadNode(nodeType, at: position)
 			}
 		}
 
 	}
 
 	fileprivate func createPlayer() {
-		player = SKSpriteNode(imageNamed: "player")
+		let node = NodeType.player
+		player = SKSpriteNode(imageNamed: node.name)
 		player.position = CGPoint(x: 96, y: 672)
 		player.zPosition = 1
 		player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width / 2)
 		player.physicsBody?.allowsRotation = false
 		player.physicsBody?.linearDamping = 0.5
-		player.physicsBody?.categoryBitMask = CategoryType.player.rawValue
-		player.physicsBody?.contactTestBitMask = CategoryType.star.rawValue | CategoryType.vortex.rawValue |
-			CategoryType.finish.rawValue
-		player.physicsBody?.collisionBitMask = CategoryType.block.rawValue
+		player.physicsBody?.categoryBitMask = node.categoryBitMask
+		player.physicsBody?.contactTestBitMask = node.contactBitMask
+		player.physicsBody?.collisionBitMask = node.collisionBitMask
 		addChild(player)
 	}
 
 	fileprivate func playerCollided(with node: SKNode) {
 		let name = node.name
 		switch name {
-		case CategoryType.vortex.name:
+		case NodeType.vortex.name:
 			player.physicsBody?.isDynamic = false
 			isGameOver = true
 			score -= 1
@@ -181,10 +211,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				self?.createPlayer()
 				self?.isGameOver = false
 			}
-		case CategoryType.star.name:
+		case NodeType.star.name:
 			node.removeFromParent()
 			score += 1
-		case CategoryType.finish.name:
+		case NodeType.finish.name:
 			break
 		default:
 			break
