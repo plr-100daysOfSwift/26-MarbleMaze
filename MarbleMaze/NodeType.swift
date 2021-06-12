@@ -13,6 +13,7 @@ enum NodeType: Character {
 	case block = "x"
 	case vortex = "v"
 	case star = "s"
+	case teleport = "t"
 	case finish = "f"
 	case space = " "
 
@@ -26,6 +27,8 @@ enum NodeType: Character {
 			return "vortex"
 		case .star:
 			return "star"
+		case .teleport:
+			return "teleport"
 		case .finish:
 			return "finish"
 		default:
@@ -43,8 +46,10 @@ enum NodeType: Character {
 			return  4
 		case .star:
 			return  8
+		case .teleport:
+			return 16
 		case .finish:
-			return  16
+			return  32
 		default:
 			return 0
 		}
@@ -52,7 +57,7 @@ enum NodeType: Character {
 
 	var collisionBitMask: UInt32 {
 		switch self {
-		case .vortex, .star, .finish:
+		case .vortex, .star, .teleport, .finish:
 			return 0
 		case.player:
 			return NodeType.block.categoryBitMask
@@ -63,10 +68,10 @@ enum NodeType: Character {
 
 	var contactBitMask: UInt32 {
 		switch self {
-		case .vortex, .star, .finish:
+		case .vortex, .star, .teleport, .finish:
 			return NodeType.player.categoryBitMask
 		case .player:
-			return NodeType.star.categoryBitMask | NodeType.vortex.categoryBitMask | NodeType.finish.categoryBitMask
+			return NodeType.star.categoryBitMask | NodeType.vortex.categoryBitMask | NodeType.teleport.categoryBitMask | NodeType.finish.categoryBitMask
 		default:
 			return 1
 		}
