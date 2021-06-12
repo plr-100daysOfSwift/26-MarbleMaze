@@ -12,6 +12,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	// MARK:-  Properties
 
+	var level = 0
 	var player: SKSpriteNode!
 	var lastTouchPosition: CGPoint?
 	var motionManager: CMMotionManager!
@@ -96,6 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	fileprivate func loadLevel() {
 		guard let levelURL = Bundle.main.url(forResource: "level1", withExtension: "txt") else {
+		guard let levelURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else {
 			fatalError("Could not find level1.txt in the app bundle.")
 		}
 		guard let levelString = try? String(contentsOf: levelURL) else {
