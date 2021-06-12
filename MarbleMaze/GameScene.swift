@@ -132,7 +132,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		player.physicsBody?.categoryBitMask = node.categoryBitMask
 		player.physicsBody?.contactTestBitMask = node.contactBitMask
 		player.physicsBody?.collisionBitMask = node.collisionBitMask
+		player.alpha = 0
+		player.scale(to: CGSize(width: 0, height: 0))
 		addChild(player)
+		player.run(SKAction.scale(to: 1.0, duration: 0.25))
+		player.run(SKAction.fadeAlpha(to: 1, duration: 0.25))
 	}
 
 	fileprivate func playerCollided(with node: SKNode) {
