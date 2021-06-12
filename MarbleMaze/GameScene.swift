@@ -78,7 +78,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			fatalError("Could not load level1.txt from the app bundle")
 		}
 
-		let lines = levelString.components(separatedBy: "\n")
+		let lines = levelString.components(separatedBy: "\n").filter({ !$0.isEmpty })
 		let cellSize = (width: 64, height: 64)
 
 		for (row, line) in lines.reversed().enumerated() {
