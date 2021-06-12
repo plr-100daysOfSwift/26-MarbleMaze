@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		DA29E28126744B2E00102395 /* NodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA29E28026744B2E00102395 /* NodeType.swift */; };
+		DA29E28526744D3D00102395 /* level2.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA29E28226744D3D00102395 /* level2.txt */; };
+		DA29E28626744D3D00102395 /* level0.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA29E28326744D3D00102395 /* level0.txt */; };
+		DA29E28726744D3D00102395 /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA29E28426744D3D00102395 /* level1.txt */; };
 		DAD1432126716FBE00BDE1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1432026716FBE00BDE1A5 /* AppDelegate.swift */; };
 		DAD1432326716FBE00BDE1A5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DAD1432226716FBE00BDE1A5 /* GameScene.sks */; };
 		DAD1432726716FBE00BDE1A5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1432626716FBE00BDE1A5 /* GameScene.swift */; };
@@ -15,11 +18,13 @@
 		DAD1432C26716FBE00BDE1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAD1432A26716FBE00BDE1A5 /* Main.storyboard */; };
 		DAD1432E26716FC100BDE1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAD1432D26716FC100BDE1A5 /* Assets.xcassets */; };
 		DAD1433626716FD500BDE1A5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAD1433526716FD500BDE1A5 /* README.md */; };
-		DAD143382671701E00BDE1A5 /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAD143372671701E00BDE1A5 /* level1.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DA29E28026744B2E00102395 /* NodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeType.swift; sourceTree = "<group>"; };
+		DA29E28226744D3D00102395 /* level2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level2.txt; sourceTree = "<group>"; };
+		DA29E28326744D3D00102395 /* level0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level0.txt; sourceTree = "<group>"; };
+		DA29E28426744D3D00102395 /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level1.txt; sourceTree = "<group>"; };
 		DAD1431D26716FBE00BDE1A5 /* MarbleMaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarbleMaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD1432026716FBE00BDE1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAD1432226716FBE00BDE1A5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -29,7 +34,6 @@
 		DAD1432D26716FC100BDE1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DAD1432F26716FC100BDE1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAD1433526716FD500BDE1A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		DAD143372671701E00BDE1A5 /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = level1.txt; path = "../../../@Support Files/@HackingWithSwift/project26-files/Content/level1.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +47,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA29E28826744D4A00102395 /* Levels */ = {
+			isa = PBXGroup;
+			children = (
+				DA29E28326744D3D00102395 /* level0.txt */,
+				DA29E28426744D3D00102395 /* level1.txt */,
+				DA29E28226744D3D00102395 /* level2.txt */,
+			);
+			path = Levels;
+			sourceTree = "<group>";
+		};
 		DAD1431426716FBE00BDE1A5 = {
 			isa = PBXGroup;
 			children = (
@@ -70,8 +84,8 @@
 				DAD1432A26716FBE00BDE1A5 /* Main.storyboard */,
 				DAD1432D26716FC100BDE1A5 /* Assets.xcassets */,
 				DAD1432F26716FC100BDE1A5 /* Info.plist */,
-				DAD143372671701E00BDE1A5 /* level1.txt */,
 				DA29E28026744B2E00102395 /* NodeType.swift */,
+				DA29E28826744D4A00102395 /* Levels */,
 			);
 			path = MarbleMaze;
 			sourceTree = "<group>";
@@ -133,10 +147,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA29E28526744D3D00102395 /* level2.txt in Resources */,
 				DAD1432C26716FBE00BDE1A5 /* Main.storyboard in Resources */,
+				DA29E28726744D3D00102395 /* level1.txt in Resources */,
 				DAD1432326716FBE00BDE1A5 /* GameScene.sks in Resources */,
 				DAD1433626716FD500BDE1A5 /* README.md in Resources */,
-				DAD143382671701E00BDE1A5 /* level1.txt in Resources */,
+				DA29E28626744D3D00102395 /* level0.txt in Resources */,
 				DAD1432E26716FC100BDE1A5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
